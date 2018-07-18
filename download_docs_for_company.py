@@ -114,5 +114,5 @@ def grab_filings(cik, tickr=""):
 
     print ("Downloaded all files for CIK: " + str(cik))
 
-
-grab_filings(1318605, "TSLA")
+if __name__ == "__main__":
+    grab_filings(1318605, "TSLA")
