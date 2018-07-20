@@ -2,6 +2,7 @@ import requests
 import os
 import errno
 from bs4 import BeautifulSoup
+import json
 CURRENT_FOLDER_PATH = os.path.abspath(os.path.dirname(__file__))
 
 def create_document_list(data):
@@ -187,10 +188,15 @@ def grab_filings(cik, tickr=""):
     print("Saving as json now...")
 
     with open(os.path.join(CURRENT_FOLDER_PATH, "docs.json"), "w") as json_file:
-        json_file.write("docs: [")
-        for doc_dict in docs_json:
+        json_file.write('"docs: ["')
+        for count, doc_dict in enumerate(docs_json):
             json_file.write("\n")
-            doc_string = str(doc_dict) + ","
+
+            # make sure there's no comma at the end
+            if count != len(docs_json) - 1:
+                doc_string = str(json.dumps(doc_dict)) + ","
+            else:
+                doc_string = str(json.dumps(doc_dict))
             json_file.write(doc_string)
 
         json_file.write("]")
